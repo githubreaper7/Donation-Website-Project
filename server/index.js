@@ -12,8 +12,12 @@ app.use(cors());
 app.use('/auth', UserRouter)
 const port = process.env.PORT || 3000;
 
-mongoose.connect("mongodb://127.0.0.1:27017/authentication")
+mongoose.connect("mongodb://127.0.0.1:27017/authentication").then(()=>{
+  app.listen(process.env.PORT, ()=>{
+    console.log('Server running successfully on port:', process.env.PORT);
+})
+}).catch((error)=>{
+  console.log(error);
+})
 
-app.listen(port, () => {
-  console.log(`Server running successfully on port ${port}`);
-});
+

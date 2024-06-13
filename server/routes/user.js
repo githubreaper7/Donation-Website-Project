@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 import {User} from '../models/User.js'
 
-router.post("/auth/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
   const user= await User.findOne({email});
   if(user){
