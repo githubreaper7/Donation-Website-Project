@@ -3,25 +3,24 @@ import "./Signup.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-const Signup = () => {
-  const [username, setUsername] = useState("");
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate=useNavigate();
 
+  axios.defaults.withCredentials=true;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/auth/signup", {
-        username,
+      .post("http://localhost:4000/auth/login", {
         email,
         password,
       })
       .then((response) => {
         if (response.data.status){
-          navigate('/login');
-          // console.log(response);
+          navigate('/');
         }
       })
       .catch((err) => {
@@ -32,14 +31,8 @@ const Signup = () => {
   return (
     <div className="sign-up-container">
       <form className="sign-up-form" onSubmit={handleSubmit}>
-        <h2>Sign Up</h2>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
+        <h2>Login</h2>
+        
         <label htmlFor="email">Email:</label>
         <input
           type="email"
@@ -55,13 +48,13 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit">Sign Up</button>
-        <p>Already have an account? <Link to="/login">Login</Link></p>
+        <button type="submit">Login</button>
+        <p>Don't have an account? <Link to="/signup">Signup</Link></p>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default Login;
 
 //hehe
