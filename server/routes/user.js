@@ -38,7 +38,30 @@ router.post("/login", async (req, res) => {
     expiresIn: "1h",
   }); //secret key, unique, atleast 32 chars, defined in .env file (here generate manually)
   res.cookie("token", token, { httpOnly: true, maxAge: 360000 });
-  res.json({ status: true, message: "login successful!" });  
+  res.json({ status: true, message: "login successful!" });
 });
+
+const verifyUser = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.json({ status: false, message: "no token" });
+    }
+    const decoded= await jwt.verify(token,process.env.KEY);
+    next();
+
+  } catch (error) {
+    return res.json(error);
+  }
+};
+
+router.get("/verify", verifyUser, (req, res) => {
+  return res.json({status:true, message:"authorized"})
+});
+
+router.get("/logout",(req,res)=>{
+  res.clearCookie('token')
+  res.json({status:true})
+})
 
 export { router as UserRouter };
